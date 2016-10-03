@@ -5,6 +5,7 @@ class TopicsController < ApplicationController
 
   def show
     @topic = Topic.find(params[:id])
+    @bookmarks = @topic.bookmarks
   end
 
   def new
@@ -16,11 +17,14 @@ class TopicsController < ApplicationController
   end
 
   def create
+    @user = current_user
+
     @topic = Topic.new(topic_params)
+    @topic.user_id = @user.id
 
     if @topic.save
       flash[:notice] = "Topic was saved successfully."
-      redirect_to @topic
+      redirect_to action: :index
     else
       flash.now[:alert] = "There was an error saving the topic. Please try again."
       render :new
@@ -36,6 +40,7 @@ class TopicsController < ApplicationController
       redirect_to @topic
     else
       flash.now[:alert] = "There was an error saving the topic. Please try again."
+      render :edit
     end
   end
 
@@ -44,7 +49,7 @@ class TopicsController < ApplicationController
 
     if @topic.destroy
       flash[:notice] = "\"#{@topic.title}\" was deleted successfully."
-      redirect_to topics_path
+      redirect_to action: :index
     else
       flash.now[:alert] = "There was an error deleting the topic."
       render :show
@@ -55,5 +60,10 @@ class TopicsController < ApplicationController
 
   def topic_params
     params.require(:topic).permit(:title)
+  end
+
+  def user_not_authorized
+    flash[:alert] = "You are not authorized to perform this action."
+    redirect_to(request.referrer || topics_path)
   end
 end
