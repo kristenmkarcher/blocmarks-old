@@ -61,9 +61,5 @@ class TopicsController < ApplicationController
   def topic_params
     params.require(:topic).permit(:title)
   end
-
-  def user_not_authorized
-    flash[:alert] = "You are not authorized to perform this action."
-    redirect_to(request.referrer || topics_path)
-  end
+  
 end
