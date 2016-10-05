@@ -6,17 +6,17 @@ class IncomingController < ApplicationController
     @user = User.find_by_email(params["sender"])
     @topic = Topic.find_by_title(params["subject"])
 
-    if @user = nil
+    if @user == nil
       @user = User.new(email: params["sender"])
       @user.save!
     end
 
-    if @topic = nil
+    if @topic == nil
       @topic = Topic.new(title: params["subject"])
       @topic.save!
     end
 
-    @bookmark = Bookmark.new(url: params["body-plain"], topic: @topic)
+    @bookmark == Bookmark.new(url: params["body-plain"], topic: @topic)
     @bookmark.save!
 
     head 200
