@@ -6,12 +6,12 @@ class IncomingController < ApplicationController
     @user = User.find_by_email(params["sender"])
     @topic = Topic.find_by_title(params["subject"])
 
-    if @user == nil
+    if !@user
       @user = User.new(email: params["sender"])
       @user.save!
     end
 
-    if @topic == nil
+    if !@topic
       @topic = Topic.new(title: params["subject"])
       @topic.save!
     end
