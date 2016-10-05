@@ -4,7 +4,7 @@ class IncomingController < ApplicationController
   skip_before_action :authenticate_user!
 
   def create
-    @user = User.find_by_email(email: params[:sender])  
+    #@user = User.find_by_email(email: params[:sender])  
     #if @user.nil?
     #  @user = User.create(email: params[:sender], password: "Welcome1", password_confirmation: "Welcome1")
     #end
